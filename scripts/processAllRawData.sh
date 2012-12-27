@@ -21,6 +21,8 @@
 
 if [ ! -d "$1/data" ]; then
     mkdir -p $1/data
+else
+    rm -f data/$2*
 fi
 
 if [ -e "$1/raw/$2_CA_ESTIMATED_DEDUCTION.txt" ]; then

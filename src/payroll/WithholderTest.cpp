@@ -113,7 +113,7 @@ class WithholderTest : public ::testing::Test {
             util->readLines("data/2012_US_MARRIED.txt.dat"), USD, 0.01));
     Worth::State::AllowanceFrequencyTable exemptionTableUS =
         Worth::State::generateAllowanceFrequencyTable(
-            util->readLines("data/2012_US_EXEMPTION_ALLOWANCE.txt.dat"), USD);
+            util->readLines("data/2012_US_WITHHOLDING_ALLOWANCE.txt.dat"), USD);
     US->addWithholdingAllowances(exemptionTableUS.begin(), exemptionTableUS.end());
 
     usWithhold = new Worth::Withholder(US);
@@ -135,11 +135,16 @@ class WithholderTest : public ::testing::Test {
 };
 
 TEST_F(WithholderTest, SingleCA2012) {
-  QuantLib::Money actual = withholderTwelve->computeWithholding(2466 * USD, Worth::Biweekly, "SINGLE", 1, 4, 0);
+  QuantLib::Money actual = 0 * USD;
+  QuantLib::Money wages = 2466 * USD;
+  Worth::FilingStatus status("SINGLE");
+  actual = withholderTwelve->computeWithholding(wages, Worth::Biweekly, status, 1, 4, 0);
+  double actualValue = actual.value();
+
   //stub said 117.88
   EXPECT_NEAR(
       117.60,
-      actual.value(),
+      actualValue,
       0.005);
 }
 
