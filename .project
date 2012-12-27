@@ -3,6 +3,7 @@
 	<name>worthTest</name>
 	<comment></comment>
 	<projects>
+		<project>worth</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
