@@ -1,0 +1,11 @@
+Weekly . . . . . . . . . . . . . . . . . . . . . . . . . . . . $ 73.08
+more than the usual number of pay periods, for Biweekly . . . . . . . . . . . . . . . . . . . . . . . . . . . 146.15
+Semimonthly . . . . . . . . . . . . . . . . . . . . . . . . 158.33
+example, 27 biweekly pay dates instead of 26.
+TIP
+Monthly . . . . . . . . . . . . . . . . . . . . . . . . . . . 316.67
+Quarterly . . . . . . . . . . . . . . . . . . . . . . . . . . 950.00
+Semiannually . . . . . . . . . . . . . . . . . . . . . . . . 1,900.00
+Wage Bracket Method Annually . . . . . . . . . . . . . . . . . . . . . . . . . . . 3,800.00
+Daily or miscellaneous (each day of the payroll
+period) . . . . . . . . . . . . . . . . . . . . . . . . . . . . 14.62
