@@ -20,7 +20,6 @@
  * along with Worth. If not, see http://www.gnu.org/licenses/.
  */
 
-#include <gtest/gtest.h>
 #include <ql/currency.hpp>
 #include <ql/money.hpp>
 #include <ql/currencies/america.hpp>
@@ -30,6 +29,7 @@
 #include "worth/payroll/PayrollPeriods.h"
 #include "worth/jurisdiction/State.h"
 #include "worth/Utility.h"
+#include "gtest/gtest.h"
 
 class WithholderTest : public ::testing::Test {
  protected:

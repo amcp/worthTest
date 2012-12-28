@@ -23,7 +23,6 @@
 
 #include <vector>
 #include <string>
-#include <gtest/gtest.h>
 #include <ql/currency.hpp>
 #include <ql/currencies/america.hpp>
 #include "worth/tax/TieredTaxer.h"
@@ -32,6 +31,7 @@
 #include "worth/payroll/PayrollPeriods.h"
 #include "worth/jurisdiction/State.h"
 #include "worth/Utility.h"
+#include "gtest/gtest.h"
 
 TEST(State, Load2013EstimatedDeductionTable) {
   QuantLib::Currency USD = QuantLib::USDCurrency();
@@ -86,10 +86,10 @@ TEST(State, EmptyState) {
   EXPECT_EQ(USD, CA.getCurrency());
   EXPECT_EQ("CA", CA.getName());
   EXPECT_FALSE(CA.hasLowIncomeExemptionForStatus(""));
-  ASSERT_DEATH(CA.getExemptionAllowance(0, Worth::Daily), ".*");
-  ASSERT_DEATH(CA.getLowIncomeExemption("SINGLE", Worth::Daily), ".*");
-  ASSERT_DEATH(CA.getStandardDeduction("SINGLE", Worth::Daily), ".*");
-  ASSERT_DEATH(CA.getWithholder("SINGLE"), ".*");
+  EXPECT_DEATH(CA.getExemptionAllowance(0, Worth::Daily), ".*");
+  EXPECT_DEATH(CA.getLowIncomeExemption("SINGLE", Worth::Daily), ".*");
+  EXPECT_DEATH(CA.getStandardDeduction("SINGLE", Worth::Daily), ".*");
+  EXPECT_DEATH(CA.getWithholder("SINGLE"), ".*");
 }
 
 TEST(State, SingleCA2013) {
@@ -116,10 +116,10 @@ TEST(State, SingleCA2013) {
   CA->addLowIncomeExemption("SINGLE", Worth::Biweekly, 491 * USD);
   CA->addStandardDeduction("SINGLE", Worth::Biweekly, 148 * USD);
 
-  ASSERT_DEATH(CA->getWithholder("MARRIED"), ".*");
-  ASSERT_DEATH(CA->getExemptionAllowance(0, Worth::Daily), ".*");
-  ASSERT_DEATH(CA->getLowIncomeExemption("SINGLE", Worth::Daily), ".*");
-  ASSERT_DEATH(CA->getStandardDeduction("SINGLE", Worth::Daily), ".*");
+  EXPECT_DEATH(CA->getWithholder("MARRIED"), ".*");
+  EXPECT_DEATH(CA->getExemptionAllowance(0, Worth::Daily), ".*");
+  EXPECT_DEATH(CA->getLowIncomeExemption("SINGLE", Worth::Daily), ".*");
+  EXPECT_DEATH(CA->getStandardDeduction("SINGLE", Worth::Daily), ".*");
 
   EXPECT_EQ(holder, CA->getWithholder("SINGLE"));
   EXPECT_EQ(4.4 * USD, CA->getExemptionAllowance(1, Worth::Biweekly));

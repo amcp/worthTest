@@ -21,8 +21,8 @@
  */
 
 #include <string>
-#include <gtest/gtest.h>
 #include "worth/payroll/PayrollPeriods.h"
+#include "gtest/gtest.h"
 
 TEST(PayrollPeriods, Caps) {
   ASSERT_EQ(Worth::Daily, Worth::convertStringToPayrollFrequency("DAILY"));

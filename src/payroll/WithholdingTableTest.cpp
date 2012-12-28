@@ -20,13 +20,13 @@
  * along with Worth. If not, see http://www.gnu.org/licenses/.
  */
 
-#include <gtest/gtest.h>
 #include <ql/currency.hpp>
 #include <ql/currencies/america.hpp>
 #include "worth/tax/TieredTaxer.h"
 #include "worth/payroll/PayrollPeriods.h"
 #include "worth/payroll/WithholdingTable.h"
 #include "worth/Utility.h"
+#include "gtest/gtest.h"
 
 TEST(WithholdingTable, Empty) {
   QuantLib::Currency USD = QuantLib::USDCurrency();
