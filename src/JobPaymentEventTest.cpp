@@ -32,7 +32,7 @@ using namespace Worth;
 TEST(JobPaymentEvent, Empty) {
   JobPaymentEvent* evPtr = NULL;
   QuantLib::Date today = QuantLib::Date::todaysDate();
-  ASSERT_DEATH(new JobPaymentEvent(today, NULL),".*");
+  EXPECT_DEATH_IF_SUPPORTED(new JobPaymentEvent(today, NULL),".*");
 }
 
 TEST(JobPaymentEvent, ApplySequencerToEmptyJobPaymentEvent) {
@@ -41,7 +41,7 @@ TEST(JobPaymentEvent, ApplySequencerToEmptyJobPaymentEvent) {
   Sequencer* seq = new Sequencer(QuantLib::Date(1,QuantLib::January,2011), today);
   //Worth::Job* job = new Worth::Job(NULL,)
   QuantLib::Date today = QuantLib::Date::todaysDate();
-  ASSERT_DEATH(new JobPaymentEvent(today, NULL), ".*");
+  EXPECT_DEATH_IF_SUPPORTED(new JobPaymentEvent(today, NULL), ".*");
   seq->addEvent(evPtr);
   seq->run();
 }

@@ -31,14 +31,14 @@
 TEST(WithholdingTable, Empty) {
   QuantLib::Currency USD = QuantLib::USDCurrency();
   Worth::WithholdingTable holder;
-  ASSERT_DEATH(holder.getTax(Worth::Daily,1 * USD), ".*");
-  ASSERT_DEATH(holder.getTax(Worth::Weekly,1 * USD), ".*");
-  ASSERT_DEATH(holder.getTax(Worth::Biweekly,1 * USD), ".*");
-  ASSERT_DEATH(holder.getTax(Worth::Semimonthly,1 * USD), ".*");
-  ASSERT_DEATH(holder.getTax(Worth::Monthly,1 * USD), ".*");
-  ASSERT_DEATH(holder.getTax(Worth::Quarterly,1 * USD), ".*");
-  ASSERT_DEATH(holder.getTax(Worth::Semiannual,1 * USD), ".*");
-  ASSERT_DEATH(holder.getTax(Worth::Annual,1 * USD), ".*");
+  EXPECT_DEATH_IF_SUPPORTED(holder.getTax(Worth::Daily,1 * USD), ".*");
+  EXPECT_DEATH_IF_SUPPORTED(holder.getTax(Worth::Weekly,1 * USD), ".*");
+  EXPECT_DEATH_IF_SUPPORTED(holder.getTax(Worth::Biweekly,1 * USD), ".*");
+  EXPECT_DEATH_IF_SUPPORTED(holder.getTax(Worth::Semimonthly,1 * USD), ".*");
+  EXPECT_DEATH_IF_SUPPORTED(holder.getTax(Worth::Monthly,1 * USD), ".*");
+  EXPECT_DEATH_IF_SUPPORTED(holder.getTax(Worth::Quarterly,1 * USD), ".*");
+  EXPECT_DEATH_IF_SUPPORTED(holder.getTax(Worth::Semiannual,1 * USD), ".*");
+  ASSERT_DEATH_IF_SUPPORTED(holder.getTax(Worth::Annual,1 * USD), ".*");
 }
 
 TEST(WithholdingTable, CaSingleBiweekly) {
