@@ -34,7 +34,7 @@
 class WithholderTest : public ::testing::Test {
  protected:
   virtual void SetUp() {
-    Worth::State* CA12 = new Worth::State("CA", 2012, USD);
+    Worth::State* CA12 = new Worth::State("CA", 2012, USD, Worth::State::MAY_ANNUALIZE);
     Worth::TieredTaxer* taxer = new Worth::TieredTaxer(USD);
     taxer->addTier(0 * USD, 0.011);
     taxer->addTier(282 * USD, 0.022);
@@ -64,7 +64,7 @@ class WithholderTest : public ::testing::Test {
 
     withholderTwelve = new Worth::Withholder(CA12);
 
-    Worth::State* CA13 = new Worth::State("CA", 2013, USD);
+    Worth::State* CA13 = new Worth::State("CA", 2013, USD, Worth::State::MAY_ANNUALIZE);
     Worth::Utility* util = Worth::Utility::getInstance();
     CA13->addWithholder(
         "SINGLE",
@@ -101,7 +101,7 @@ class WithholderTest : public ::testing::Test {
 
     withholderThirteen = new Worth::Withholder(CA13);
 
-    Worth::State* US = new Worth::State("US", 2012, USD);
+    Worth::State* US = new Worth::State("US", 2012, USD, Worth::State::MAY_ANNUALIZE);
 
     US->addWithholder(
         "SINGLE",

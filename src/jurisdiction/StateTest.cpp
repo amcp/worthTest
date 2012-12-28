@@ -41,7 +41,7 @@ TEST(State, Load2013EstimatedDeductionTable) {
       Worth::State::generateAllowanceFrequencyTable(
           util->readLines("data/2013_CA_ESTIMATED_DEDUCTION.txt.dat"), USD);
 
-  Worth::State CA("CA", 2013, USD);
+  Worth::State CA("CA", 2013, USD, Worth::State::MAY_ANNUALIZE);
   CA.addEstimatedDeductions(estimatedTable.begin(), estimatedTable.end());
 }
 
@@ -53,7 +53,7 @@ TEST(State, Load2013ExemptionAllowanceTable) {
       Worth::State::generateAllowanceFrequencyTable(
           util->readLines("data/2013_CA_EXEMPTION_ALLOWANCE.txt.dat"), USD);
 
-  Worth::State CA("CA", 2013, USD);
+  Worth::State CA("CA", 2013, USD, Worth::State::MAY_ANNUALIZE);
   CA.addExemptionAllowances(exemptionTable.begin(), exemptionTable.end());
 }
 
@@ -64,7 +64,7 @@ TEST(State, Load2013LowIncomeTable) {
       Worth::State::generateStatusFrequencyTable(
           util->readLines("data/2013_CA_LOW_INCOME.txt.dat"), USD);
 
-  Worth::State CA("CA", 2013, USD);
+  Worth::State CA("CA", 2013, USD, Worth::State::MAY_ANNUALIZE);
   CA.addLowIncomeExemptions(lowIncomeTable.begin(), lowIncomeTable.end());
 }
 
@@ -75,13 +75,13 @@ TEST(State, Load2013StandardDeductionTable) {
       Worth::State::generateStatusFrequencyTable(
           util->readLines("data/2013_CA_STANDARD_DEDUCTION.txt.dat"), USD);
 
-  Worth::State CA("CA", 2013, USD);
+  Worth::State CA("CA", 2013, USD, Worth::State::MAY_ANNUALIZE);
   CA.addStandardDeductions(standardDeductionTable.begin(), standardDeductionTable.end());
 }
 
 TEST(State, EmptyState) {
   QuantLib::Currency USD = QuantLib::USDCurrency();
-  Worth::State CA("CA", 2012, USD);
+  Worth::State CA("CA", 2012, USD, Worth::State::MAY_ANNUALIZE);
 
   EXPECT_EQ(USD, CA.getCurrency());
   EXPECT_EQ("CA", CA.getName());
@@ -94,7 +94,7 @@ TEST(State, EmptyState) {
 
 TEST(State, SingleCA2013) {
   QuantLib::Currency USD = QuantLib::USDCurrency();
-  Worth::State* CA = new Worth::State("CA", 2012, USD);
+  Worth::State* CA = new Worth::State("CA", 2012, USD, Worth::State::MAY_ANNUALIZE);
   Worth::TieredTaxer* taxer = new Worth::TieredTaxer(USD);
   taxer->addTier(0 * USD, 0.011);
   taxer->addTier(282 * USD, 0.022);

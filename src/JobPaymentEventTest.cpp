@@ -40,7 +40,6 @@ TEST(JobPaymentEvent, ApplySequencerToEmptyJobPaymentEvent) {
   QuantLib::Date today = QuantLib::Date::todaysDate();
   Sequencer* seq = new Sequencer(QuantLib::Date(1,QuantLib::January,2011), today);
   //Worth::Job* job = new Worth::Job(NULL,)
-  QuantLib::Date today = QuantLib::Date::todaysDate();
   EXPECT_DEATH_IF_SUPPORTED(new JobPaymentEvent(today, NULL), ".*");
   seq->addEvent(evPtr);
   seq->run();
