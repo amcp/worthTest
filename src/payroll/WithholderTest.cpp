@@ -174,9 +174,10 @@ TEST_F(WithholderTest, MarriedMonthly2013) {
 }
 
 TEST_F(WithholderTest, HeadOfHouseholdWeekly2013) {
-  QuantLib::Money withheld = ca13->computeWithholding(3800 * USD,
-                                                      Worth::Monthly, "MARRIED",
-                                                      5, 0, 0);
+  QuantLib::Money withheld;
+  withheld = ca13->computeWithholding(800 * USD, Worth::Weekly,
+                                                      "HEADOFHOUSEHOLD", 3, 0,
+                                                      0);
   EXPECT_NEAR(4.59, withheld.value(), 0.005);
 }
 
