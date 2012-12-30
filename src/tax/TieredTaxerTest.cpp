@@ -22,6 +22,7 @@
 
 #include <ql/currency.hpp>
 #include <ql/currencies/america.hpp>
+#include <sstream>
 #include "worth/tax/TieredTaxer.h"
 #include "gtest/gtest.h"
 
@@ -86,7 +87,11 @@ TEST(TieredTaxer, WithUpperBound) {
 TEST(TieredTaxer, FactoryMethod) {
   QuantLib::Currency USD = QuantLib::USDCurrency();
   Worth::TieredTaxer* taxer = NULL;
-  taxer = Worth::TieredTaxer::generateTieredTaxer("0 1.100 286 2.200 680 4.400 1072 6.600 1490 8.800 1882 10.230 9616 11.330 11538 12.430 19230 13.530 38462 14.630", USD, 0.01);
+  std::stringstream ss;
+  ss << "0 1.100 286 2.200 680 4.400 1072 6.600 ";
+  ss << "1490 8.800 1882 10.230 9616 11.330 11538 12.430 19230 ";
+  ss << "13.530 38462 14.630";
+  taxer = Worth::TieredTaxer::generateTieredTaxer(ss.str(), USD, 0.01);
 
   // test compute marginal rate
   EXPECT_NEAR(0.011, taxer->computeMarginalRate(0*USD), 0.001);
