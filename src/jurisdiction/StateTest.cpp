@@ -21,10 +21,12 @@
  *
  */
 
-#include <vector>
-#include <string>
 #include <ql/currency.hpp>
 #include <ql/currencies/america.hpp>
+
+#include <vector>
+#include <string>
+
 #include "worth/tax/TieredTaxer.h"
 #include "worth/payroll/WithholdingTable.h"
 #include "worth/payroll/Withholder.h"
@@ -76,7 +78,8 @@ TEST(State, Load2013StandardDeductionTable) {
           util->readLines("data/2013_CA_STANDARD_DEDUCTION.txt.dat"), USD);
 
   Worth::State CA("CA", 2013, USD, Worth::State::MAY_ANNUALIZE);
-  CA.addStandardDeductions(standardDeductionTable.begin(), standardDeductionTable.end());
+  CA.addStandardDeductions(standardDeductionTable.begin(),
+                           standardDeductionTable.end());
 }
 
 TEST(State, EmptyState) {
@@ -94,7 +97,8 @@ TEST(State, EmptyState) {
 
 TEST(State, SingleCA2013) {
   QuantLib::Currency USD = QuantLib::USDCurrency();
-  Worth::State* CA = new Worth::State("CA", 2012, USD, Worth::State::MAY_ANNUALIZE);
+  Worth::State* CA = NULL;
+  CA = new Worth::State("CA", 2012, USD, Worth::State::MAY_ANNUALIZE);
   Worth::TieredTaxer* taxer = new Worth::TieredTaxer(USD);
   taxer->addTier(0 * USD, 0.011);
   taxer->addTier(282 * USD, 0.022);

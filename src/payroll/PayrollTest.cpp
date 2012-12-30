@@ -27,11 +27,15 @@
 TEST(PayrollPeriods, Caps) {
   ASSERT_EQ(Worth::Daily, Worth::convertStringToPayrollFrequency("DAILY"));
   ASSERT_EQ(Worth::Weekly, Worth::convertStringToPayrollFrequency("WEEKLY"));
-  ASSERT_EQ(Worth::Biweekly, Worth::convertStringToPayrollFrequency("BIWEEKLY"));
-  ASSERT_EQ(Worth::Semimonthly, Worth::convertStringToPayrollFrequency("SEMIMONTHLY"));
+  ASSERT_EQ(Worth::Biweekly,
+            Worth::convertStringToPayrollFrequency("BIWEEKLY"));
+  ASSERT_EQ(Worth::Semimonthly,
+            Worth::convertStringToPayrollFrequency("SEMIMONTHLY"));
   ASSERT_EQ(Worth::Monthly, Worth::convertStringToPayrollFrequency("MONTHLY"));
-  ASSERT_EQ(Worth::Quarterly, Worth::convertStringToPayrollFrequency("QUARTERLY"));
-  ASSERT_EQ(Worth::Semiannual, Worth::convertStringToPayrollFrequency("SEMIANNUAL"));
+  ASSERT_EQ(Worth::Quarterly,
+            Worth::convertStringToPayrollFrequency("QUARTERLY"));
+  ASSERT_EQ(Worth::Semiannual,
+            Worth::convertStringToPayrollFrequency("SEMIANNUAL"));
   ASSERT_EQ(Worth::Annual, Worth::convertStringToPayrollFrequency("ANNUAL"));
   ASSERT_EQ(Worth::Unknown, Worth::convertStringToPayrollFrequency("FOOBAR"));
 }
@@ -39,11 +43,15 @@ TEST(PayrollPeriods, Caps) {
 TEST(PayrollPeriods, MixedCase) {
   ASSERT_EQ(Worth::Daily, Worth::convertStringToPayrollFrequency("Daily"));
   ASSERT_EQ(Worth::Weekly, Worth::convertStringToPayrollFrequency("Weekly"));
-  ASSERT_EQ(Worth::Biweekly, Worth::convertStringToPayrollFrequency("Biweekly"));
-  ASSERT_EQ(Worth::Semimonthly, Worth::convertStringToPayrollFrequency("Semimonthly"));
+  ASSERT_EQ(Worth::Biweekly,
+            Worth::convertStringToPayrollFrequency("Biweekly"));
+  ASSERT_EQ(Worth::Semimonthly,
+            Worth::convertStringToPayrollFrequency("Semimonthly"));
   ASSERT_EQ(Worth::Monthly, Worth::convertStringToPayrollFrequency("Monthly"));
-  ASSERT_EQ(Worth::Quarterly, Worth::convertStringToPayrollFrequency("Quarterly"));
-  ASSERT_EQ(Worth::Semiannual, Worth::convertStringToPayrollFrequency("Semiannual"));
+  ASSERT_EQ(Worth::Quarterly,
+            Worth::convertStringToPayrollFrequency("Quarterly"));
+  ASSERT_EQ(Worth::Semiannual,
+            Worth::convertStringToPayrollFrequency("Semiannual"));
   ASSERT_EQ(Worth::Annual, Worth::convertStringToPayrollFrequency("Annual"));
   ASSERT_EQ(Worth::Unknown, Worth::convertStringToPayrollFrequency("Unknown"));
 }

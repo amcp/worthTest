@@ -34,7 +34,8 @@
 class WithholderTest : public ::testing::Test {
  protected:
   virtual void SetUp() {
-    Worth::State* CA12 = new Worth::State("CA", 2012, USD, Worth::State::MAY_ANNUALIZE);
+    Worth::State* CA12 = new Worth::State("CA", 2012, USD,
+                                          Worth::State::MAY_ANNUALIZE);
     Worth::TieredTaxer* taxer = new Worth::TieredTaxer(USD);
     taxer->addTier(0 * USD, 0.011);
     taxer->addTier(282 * USD, 0.022);
@@ -62,9 +63,10 @@ class WithholderTest : public ::testing::Test {
     CA12->addLowIncomeExemption("SINGLE", Worth::Biweekly, 482 * USD);
     CA12->addStandardDeduction("SINGLE", Worth::Biweekly, 145 * USD);
 
-    withholderTwelve = new Worth::Withholder(CA12);
+    twelve = new Worth::Withholder(CA12);
 
-    Worth::State* CA13 = new Worth::State("CA", 2013, USD, Worth::State::MAY_ANNUALIZE);
+    Worth::State* CA13 = new Worth::State("CA", 2013, USD,
+                                          Worth::State::MAY_ANNUALIZE);
     Worth::Utility* util = Worth::Utility::getInstance();
     CA13->addWithholder(
         "SINGLE",
@@ -77,11 +79,12 @@ class WithholderTest : public ::testing::Test {
     CA13->addWithholder(
         "HEADOFHOUSEHOLD",
         Worth::WithholdingTable::generateWithholdingTable(
-            util->readLines("data/2013_CA_HEADOFHOUSEHOLD.txt.dat"), USD, 0.01));
+            util->readLines("data/2013_CA_HEADOFHOUSEHOLD.txt.dat"), USD,
+            0.01));
 
     Worth::State::AllowanceFrequencyTable estimatedTable =
-          Worth::State::generateAllowanceFrequencyTable(
-              util->readLines("data/2013_CA_ESTIMATED_DEDUCTION.txt.dat"), USD);
+        Worth::State::generateAllowanceFrequencyTable(
+            util->readLines("data/2013_CA_ESTIMATED_DEDUCTION.txt.dat"), USD);
     CA13->addEstimatedDeductions(estimatedTable.begin(), estimatedTable.end());
 
     Worth::State::AllowanceFrequencyTable exemptionTable =
@@ -95,13 +98,15 @@ class WithholderTest : public ::testing::Test {
     CA13->addLowIncomeExemptions(lowIncomeTable.begin(), lowIncomeTable.end());
 
     Worth::State::StatusFrequencyTable standardDeductionTable =
-          Worth::State::generateStatusFrequencyTable(
-              util->readLines("data/2013_CA_STANDARD_DEDUCTION.txt.dat"), USD);
-    CA13->addStandardDeductions(standardDeductionTable.begin(), standardDeductionTable.end());
+        Worth::State::generateStatusFrequencyTable(
+            util->readLines("data/2013_CA_STANDARD_DEDUCTION.txt.dat"), USD);
+    CA13->addStandardDeductions(standardDeductionTable.begin(),
+                                standardDeductionTable.end());
 
-    withholderThirteen = new Worth::Withholder(CA13);
+    ca13 = new Worth::Withholder(CA13);
 
-    Worth::State* US = new Worth::State("US", 2012, USD, Worth::State::MAY_ANNUALIZE);
+    Worth::State* US = new Worth::State("US", 2012, USD,
+                                        Worth::State::MAY_ANNUALIZE);
 
     US->addWithholder(
         "SINGLE",
@@ -114,22 +119,23 @@ class WithholderTest : public ::testing::Test {
     Worth::State::AllowanceFrequencyTable exemptionTableUS =
         Worth::State::generateAllowanceFrequencyTable(
             util->readLines("data/2012_US_WITHHOLDING_ALLOWANCE.txt.dat"), USD);
-    US->addWithholdingAllowances(exemptionTableUS.begin(), exemptionTableUS.end());
+    US->addWithholdingAllowances(exemptionTableUS.begin(),
+                                 exemptionTableUS.end());
 
     usWithhold = new Worth::Withholder(US);
   }
 
   virtual void TearDown() {
-    delete withholderTwelve;
-    withholderTwelve = NULL;
-    delete withholderThirteen;
-    withholderThirteen = NULL;
+    delete twelve;
+    twelve = NULL;
+    delete ca13;
+    ca13 = NULL;
     delete usWithhold;
     usWithhold = NULL;
   }
 
-  Worth::Withholder* withholderTwelve;
-  Worth::Withholder* withholderThirteen;
+  Worth::Withholder* twelve;
+  Worth::Withholder* ca13;
   Worth::Withholder* usWithhold;
   QuantLib::USDCurrency USD;
 };
@@ -138,69 +144,67 @@ TEST_F(WithholderTest, SingleCA2012) {
   QuantLib::Money actual = 0 * USD;
   QuantLib::Money wages = 2466 * USD;
   Worth::FilingStatus status("SINGLE");
-  actual = withholderTwelve->computeWithholding(wages, Worth::Biweekly, status, 1, 4, 0);
+  actual = twelve->computeWithholding(wages, Worth::Biweekly, status, 1, 4, 0);
   double actualValue = actual.value();
 
-  //stub said 117.88
-  EXPECT_NEAR(
-      117.60,
-      actualValue,
-      0.005);
+  // stub said 117.88
+  EXPECT_NEAR(117.60, actualValue, 0.005);
 }
 
 TEST_F(WithholderTest, SingleCA2013LowIncome) {
-  //below low income limit so zero withholdings
-  EXPECT_NEAR(
-      0.00,
-      withholderThirteen->computeWithholding(210 * USD, Worth::Biweekly, "SINGLE", 1, 4, 0).value(),
-      0.005);
+  // below low income limit so zero withholdings
+  QuantLib::Money withheld = ca13->computeWithholding(210 * USD,
+                                                      Worth::Biweekly, "SINGLE",
+                                                      1, 4, 0);
+  EXPECT_NEAR(0.00, withheld.value(), 0.005);
 }
 
 TEST_F(WithholderTest, MySingleCA2013) {
-  EXPECT_NEAR(
-      115.59,
-      withholderThirteen->computeWithholding(2466 * USD, Worth::Biweekly, "SINGLE", 1, 4, 0).value(),
-      0.005);
+  QuantLib::Money withheld = ca13->computeWithholding(2466 * USD,
+                                                      Worth::Biweekly, "SINGLE",
+                                                      1, 4, 0);
+  EXPECT_NEAR(115.59, withheld.value(), 0.005);
 }
 
 TEST_F(WithholderTest, MarriedMonthly2013) {
-  EXPECT_NEAR(
-      12.83,
-      withholderThirteen->computeWithholding(3800 * USD, Worth::Monthly, "MARRIED", 5, 0, 0).value(),
-      0.005);
+  QuantLib::Money withheld = ca13->computeWithholding(3800 * USD,
+                                                      Worth::Monthly, "MARRIED",
+                                                      5, 0, 0);
+  EXPECT_NEAR(12.83, withheld.value(), 0.005);
 }
 
 TEST_F(WithholderTest, HeadOfHouseholdWeekly2013) {
-  EXPECT_NEAR(
-      4.59,
-      withholderThirteen->computeWithholding(800 * USD, Worth::Weekly, "HEADOFHOUSEHOLD", 3, 0, 0).value(),
-      0.005);
+  QuantLib::Money withheld = ca13->computeWithholding(3800 * USD,
+                                                      Worth::Monthly, "MARRIED",
+                                                      5, 0, 0);
+  EXPECT_NEAR(4.59, withheld.value(), 0.005);
 }
 
 TEST_F(WithholderTest, MarriedSemimonthly2013) {
-  EXPECT_NEAR(
-      6.81,
-      withholderThirteen->computeWithholding(1800 * USD, Worth::Semimonthly, "MARRIED", 4, 0, 0).value(),
-      0.03);
+  QuantLib::Money withheld = ca13->computeWithholding(1800 * USD,
+                                                      Worth::Semimonthly,
+                                                      "MARRIED", 4, 0, 0);
+  EXPECT_NEAR(6.81, withheld.value(), 0.03);
 }
 
 TEST_F(WithholderTest, SingleWeeklyUs2012) {
-  EXPECT_NEAR(
-      53.53,
-      usWithhold->computeWithholding(600 * USD, Worth::Weekly, "SINGLE", 0, 0, 2).value(),
-      0.01);
+  QuantLib::Money withheld = usWithhold->computeWithholding(600 * USD,
+                                                            Worth::Weekly,
+                                                            "SINGLE", 0, 0, 2);
+  EXPECT_NEAR(53.53, withheld.value(), 0.01);
 }
 
 TEST_F(WithholderTest, MarriedWeeklyUs2012Annual) {
-  EXPECT_NEAR(
-      66.02,
-      usWithhold->computeWithholding(1000 * USD, Worth::Weekly, "MARRIED", 0, 0, 4, true).value(),
-      0.04);
+  QuantLib::Money withheld = usWithhold->computeWithholding(1000 * USD,
+                                                            Worth::Weekly,
+                                                            "MARRIED", 0, 0, 4,
+                                                            true);
+  EXPECT_NEAR(66.02, withheld.value(), 0.04);
 }
 
 TEST_F(WithholderTest, MarriedAnnualMonthly2013) {
-  EXPECT_NEAR(
-      20.22,
-      withholderThirteen->computeWithholding(3750 * USD, Worth::Monthly, "MARRIED", 4, 0, 0, true).value(),
-      0.01);
+  QuantLib::Money withheld = ca13->computeWithholding(3750 * USD,
+                                                      Worth::Monthly, "MARRIED",
+                                                      4, 0, 0, true);
+  EXPECT_NEAR(20.22, withheld.value(), 0.01);
 }

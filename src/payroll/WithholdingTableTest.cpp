@@ -31,14 +31,14 @@
 TEST(WithholdingTable, Empty) {
   QuantLib::Currency USD = QuantLib::USDCurrency();
   Worth::WithholdingTable holder;
-  EXPECT_DEATH_IF_SUPPORTED(holder.getTax(Worth::Daily,1 * USD), ".*");
-  EXPECT_DEATH_IF_SUPPORTED(holder.getTax(Worth::Weekly,1 * USD), ".*");
-  EXPECT_DEATH_IF_SUPPORTED(holder.getTax(Worth::Biweekly,1 * USD), ".*");
-  EXPECT_DEATH_IF_SUPPORTED(holder.getTax(Worth::Semimonthly,1 * USD), ".*");
-  EXPECT_DEATH_IF_SUPPORTED(holder.getTax(Worth::Monthly,1 * USD), ".*");
-  EXPECT_DEATH_IF_SUPPORTED(holder.getTax(Worth::Quarterly,1 * USD), ".*");
-  EXPECT_DEATH_IF_SUPPORTED(holder.getTax(Worth::Semiannual,1 * USD), ".*");
-  ASSERT_DEATH_IF_SUPPORTED(holder.getTax(Worth::Annual,1 * USD), ".*");
+  EXPECT_DEATH_IF_SUPPORTED(holder.getTax(Worth::Daily, 1 * USD), ".*");
+  EXPECT_DEATH_IF_SUPPORTED(holder.getTax(Worth::Weekly, 1 * USD), ".*");
+  EXPECT_DEATH_IF_SUPPORTED(holder.getTax(Worth::Biweekly, 1 * USD), ".*");
+  EXPECT_DEATH_IF_SUPPORTED(holder.getTax(Worth::Semimonthly, 1 * USD), ".*");
+  EXPECT_DEATH_IF_SUPPORTED(holder.getTax(Worth::Monthly, 1 * USD), ".*");
+  EXPECT_DEATH_IF_SUPPORTED(holder.getTax(Worth::Quarterly, 1 * USD), ".*");
+  EXPECT_DEATH_IF_SUPPORTED(holder.getTax(Worth::Semiannual, 1 * USD), ".*");
+  ASSERT_DEATH_IF_SUPPORTED(holder.getTax(Worth::Annual, 1 * USD), ".*");
 }
 
 TEST(WithholdingTable, CaSingleBiweekly) {
@@ -65,17 +65,17 @@ TEST(WithholdingTable, FactoryMethod) {
   QuantLib::Currency USD = QuantLib::USDCurrency();
   Worth::Utility* util = Worth::Utility::getInstance();
 
-  //2013 numbers - single
+  // 2013 numbers - single
   Worth::WithholdingTable* caSingle =
       Worth::WithholdingTable::generateWithholdingTable(
           util->readLines("data/2013_CA_SINGLE.txt.dat"), USD, 0.01);
 
-  //2013 numbers - married
+  // 2013 numbers - married
   Worth::WithholdingTable* caMarried =
       Worth::WithholdingTable::generateWithholdingTable(
           util->readLines("data/2013_CA_MARRIED.txt.dat"), USD, 0.01);
 
-  //2013 numbers - hoh
+  // 2013 numbers - hoh
   Worth::WithholdingTable* caHeadOfHousehold =
       Worth::WithholdingTable::generateWithholdingTable(
           util->readLines("data/2013_CA_HEADOFHOUSEHOLD.txt.dat"), USD, 0.01);

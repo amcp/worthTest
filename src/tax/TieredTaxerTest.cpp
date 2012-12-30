@@ -29,15 +29,15 @@ TEST(TieredTaxer, Empty) {
   QuantLib::Currency USD = QuantLib::USDCurrency();
   Worth::TieredTaxer taxer(USD);
 
-  //test compute tax
+  // test compute tax
   EXPECT_EQ(0*USD, taxer.computeTax(0 * USD));
   EXPECT_EQ(0*USD, taxer.computeTax(1 * USD));
 
-  //test compute marginal rate
+  // test compute marginal rate
   EXPECT_EQ(0, taxer.computeMarginalRate(0*USD));
   EXPECT_EQ(0, taxer.computeMarginalRate(1*USD));
 
-  //test compute effective rate
+  // test compute effective rate
   EXPECT_EQ(0, taxer.computeEffectiveRate(0 * USD));
   EXPECT_EQ(0, taxer.computeEffectiveRate(1 * USD));
 }
@@ -47,18 +47,18 @@ TEST(TieredTaxer, NoUpperBound) {
   Worth::TieredTaxer taxer(USD);
   taxer.addTier(0 * USD, 0.1);
 
-  //test compute tax
+  // test compute tax
   EXPECT_EQ(0*USD, taxer.computeTax(0 * USD));
   EXPECT_EQ(0.1*USD, taxer.computeTax(1 * USD));
 
-  //test compute marginal rate
+  // test compute marginal rate
   EXPECT_EQ(0.1, taxer.computeMarginalRate(0*USD));
   double rate = 0.0;
   QuantLib::Money oneDollar = 1*USD;
   rate = taxer.computeMarginalRate(oneDollar);
   EXPECT_EQ(0.1, rate);
 
-  //test compute effective rate
+  // test compute effective rate
   EXPECT_EQ(0, taxer.computeEffectiveRate(0 * USD));
   EXPECT_EQ(0.1, taxer.computeEffectiveRate(1 * USD));
 }
@@ -69,25 +69,26 @@ TEST(TieredTaxer, WithUpperBound) {
   taxer.addTier(0 * USD, 0.1);
   taxer.addTier(10 * USD, 0.0);
 
-  //test compute tax
+  // test compute tax
   EXPECT_EQ(0*USD, taxer.computeTax(0 * USD));
   EXPECT_EQ(0.1*USD, taxer.computeTax(1 * USD));
 
-  //test compute marginal rate
+  // test compute marginal rate
   EXPECT_EQ(0.1, taxer.computeMarginalRate(0*USD));
   double rate = taxer.computeMarginalRate(1*USD);
   EXPECT_EQ(0.1, rate);
 
-  //test compute effective rate
+  // test compute effective rate
   EXPECT_EQ(0, taxer.computeEffectiveRate(0 * USD));
   EXPECT_EQ(0.1, taxer.computeEffectiveRate(1 * USD));
 }
 
 TEST(TieredTaxer, FactoryMethod) {
   QuantLib::Currency USD = QuantLib::USDCurrency();
-  Worth::TieredTaxer* taxer = Worth::TieredTaxer::generateTieredTaxer("0 1.100 286 2.200 680 4.400 1072 6.600 1490 8.800 1882 10.230 9616 11.330 11538 12.430 19230 13.530 38462 14.630", USD, 0.01);
+  Worth::TieredTaxer* taxer = NULL;
+  taxer = Worth::TieredTaxer::generateTieredTaxer("0 1.100 286 2.200 680 4.400 1072 6.600 1490 8.800 1882 10.230 9616 11.330 11538 12.430 19230 13.530 38462 14.630", USD, 0.01);
 
-  //test compute marginal rate
+  // test compute marginal rate
   EXPECT_NEAR(0.011, taxer->computeMarginalRate(0*USD), 0.001);
   EXPECT_NEAR(0.011, taxer->computeMarginalRate(100*USD), 0.001);
 
@@ -135,7 +136,7 @@ TEST(TieredTaxer, FullTiers) {
   taxer.addTier(19230 * USD, 0.1353);
   taxer.addTier(38462 * USD, 0.1463);
 
-  //test compute marginal rate
+  // test compute marginal rate
   EXPECT_EQ(0.011, taxer.computeMarginalRate(0*USD));
   EXPECT_EQ(0.011, taxer.computeMarginalRate(100*USD));
 

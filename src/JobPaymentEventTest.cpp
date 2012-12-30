@@ -27,20 +27,19 @@
 #include "worth/JobPaymentEvent.h"
 #include "gtest/gtest.h"
 
-using namespace Worth;
-
 TEST(JobPaymentEvent, Empty) {
-  JobPaymentEvent* evPtr = NULL;
+  Worth::JobPaymentEvent* evPtr = NULL;
   QuantLib::Date today = QuantLib::Date::todaysDate();
-  EXPECT_DEATH_IF_SUPPORTED(new JobPaymentEvent(today, NULL),".*");
+  EXPECT_DEATH_IF_SUPPORTED(new Worth::JobPaymentEvent(today, NULL), ".*");
 }
 
 TEST(JobPaymentEvent, ApplySequencerToEmptyJobPaymentEvent) {
-  JobPaymentEvent* evPtr = NULL;
+  Worth::JobPaymentEvent* evPtr = NULL;
   QuantLib::Date today = QuantLib::Date::todaysDate();
-  Sequencer* seq = new Sequencer(QuantLib::Date(1,QuantLib::January,2011), today);
-  //Worth::Job* job = new Worth::Job(NULL,)
-  EXPECT_DEATH_IF_SUPPORTED(new JobPaymentEvent(today, NULL), ".*");
+  Worth::Sequencer* seq = new Worth::Sequencer(
+      QuantLib::Date(1, QuantLib::January, 2011), today);
+  // Worth::Job* job = new Worth::Job(NULL,)
+  EXPECT_DEATH_IF_SUPPORTED(new Worth::JobPaymentEvent(today, NULL), ".*");
   seq->addEvent(evPtr);
   seq->run();
 }
